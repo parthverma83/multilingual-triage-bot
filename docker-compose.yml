@@ -1,0 +1,22 @@
+services:
+  backend:
+    build: ./backend
+    container_name: triage-backend
+    ports:
+      - "8000:8000"
+    restart: always
+
+  postgres:
+    image: postgres:16
+    container_name: triage-postgres
+    environment:
+      POSTGRES_DB: triagedb
+      POSTGRES_USER: triageuser
+      POSTGRES_PASSWORD: triagepass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
