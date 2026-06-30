@@ -1,0 +1,43 @@
+# Environment — never commit real credentials or endpoints
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+inference_env/
+.venv/
+venv/
+env/
+
+# Model weights — too large for GitHub (use Google Drive / HuggingFace Hub)
+models/
+*.safetensors
+*.bin
+*.pt
+*.ckpt
+
+# Logs and temp
+*.log
+build.log
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user

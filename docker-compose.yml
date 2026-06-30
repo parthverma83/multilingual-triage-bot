@@ -1,0 +1,41 @@
+services:
+  inference:
+    build:
+      context: .
+      dockerfile: inference/Dockerfile
+    environment:
+      SKIP_MODEL_LOAD: "${SKIP_MODEL_LOAD:-true}"
+      LORA_PATH: "${LORA_PATH:-/models/sarvam_triage_lora}"
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./models/sarvam_triage_lora:/models/sarvam_triage_lora:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      APP_NAME: "${APP_NAME:-Multilingual Medical Triage API}"
+      APP_VERSION: "${APP_VERSION:-1.0.0}"
+      MODEL_PROVIDER: "${MODEL_PROVIDER:-runpod}"
+      MODEL_ENDPOINT: "${MODEL_ENDPOINT:-http://inference:8001}"
+      MODEL_API_KEY: "${MODEL_API_KEY:-}"
+      MODEL_TIMEOUT_SECONDS: "${MODEL_TIMEOUT_SECONDS:-60}"
+      MODEL_RETRY_ATTEMPTS: "${MODEL_RETRY_ATTEMPTS:-3}"
+      MYSQL_HOST: "${MYSQL_HOST:-localhost}"
+      MYSQL_PORT: "${MYSQL_PORT:-3306}"
+      MYSQL_USER: "${MYSQL_USER:-root}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD:-}"
+      MYSQL_DATABASE: "${MYSQL_DATABASE:-triage_bot}"
+    ports:
+      - "8000:8000"
+    depends_on:
+      inference:
+        condition: service_healthy

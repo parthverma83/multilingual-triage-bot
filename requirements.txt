@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+pydantic
+python-dotenv
+pydantic-settings
+httpx
+pytest
+pytest-asyncio
+
+torch
+transformers
+peft
+accelerate
+bitsandbytes
+unsloth
+sentencepiece
+
