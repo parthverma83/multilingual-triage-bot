@@ -3,7 +3,7 @@ import time
 import httpx
 import streamlit as st
 
-BACKEND_URL = "http://localhost:8000"
+BACKEND_URL = "https://medroute-ai-p8hm.onrender.com"
 
 st.set_page_config(
     page_title="MedRoute AI",
